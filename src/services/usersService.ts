@@ -31,6 +31,8 @@ export const createUserService = async (
       ConditionExpression: "attribute_not_exists(email)",
     })
   );
+
+  return user;
 };
 
 export const getUserService = async (id: string) => {
