@@ -5,7 +5,7 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
-      throw new Error('Please provide an email or password.');
+      throw new Error("Please provide an email or password.");
     }
 
     const result = await loginUser(email, password);
