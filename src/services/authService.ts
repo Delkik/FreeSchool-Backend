@@ -1,5 +1,5 @@
 import cognitoClient from "@cognito/cognitoClient";
-import { ConfirmSignUpCommand, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { ConfirmSignUpCommand, InitiateAuthCommand, ResendConfirmationCodeCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { generateSecretHash } from "@utils/generateSecretHash";
 
 export const signUpUser = async (
@@ -24,6 +24,18 @@ export const signUpUser = async (
 
   return await cognitoClient.send(command);
 };
+
+export const sendConfirmation = async (email: string) => {
+  const secretHash = generateSecretHash(email);
+
+  const command = new ResendConfirmationCodeCommand({
+    ClientId: process.env.COGNITO_CLIENT_ID,
+    Username: email,
+    SecretHash: secretHash,
+  })
+
+  return await cognitoClient.send(command);
+}
 
 export const confirmUser = async (email: string, confirmationCode: string) => {
   const secretHash = generateSecretHash(email);

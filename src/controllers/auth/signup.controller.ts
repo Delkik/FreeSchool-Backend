@@ -4,12 +4,13 @@ import { Request, Response } from "express";
 export const signup = async (req: Request, res: Response) => {
   const { password, email, firstName, lastName } = req.body;
   try {
-    console.log(email, password);
     const result = await signUpUser(email, password, firstName, lastName);
+
+    // here we want to save user data in dynamo db (pfp, grade, etc)
     res.status(200).json(result);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error signing up user:", error);
-    res.status(400).json({ error: "User signup failed", details: error });
+    res.status(400).json({ error: error.message, details: error });
   }
 }
 
