@@ -3,6 +3,7 @@ import {
   createUserService,
   getUserService,
   getUsersService,
+  updateUserService,
 } from "@services/usersService";
 
 // Create or Update User
@@ -22,7 +23,18 @@ export const createUser = async (req: Request, res: Response) => {
       data
     );
 
-    res.json({ user, message: "User saved successfully!" });
+    res.status(201).json({ user, message: "User saved successfully!" });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { user } = req.body;
+    const data = await updateUserService(user);
+
+    res.status(200).json(data);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -33,7 +45,7 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     const data = await getUserService(req.params.id);
 
-    res.json(data.Item || { message: "User not found" });
+    res.status(200).json(data.Item || { message: "User not found" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -44,7 +56,7 @@ export const getUsers = async (_: Request, res: Response) => {
   try {
     const data = await getUsersService();
 
-    res.json(data.Items || []);
+    res.status(200).json(data.Items || []);
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

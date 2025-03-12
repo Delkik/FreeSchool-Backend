@@ -35,6 +35,15 @@ export const createUserService = async (
   return user;
 };
 
+export const updateUserService = async (user: BaseUser) => {
+  return await docClient.send(
+    new PutCommand({
+      TableName: TABLE_NAME,
+      Item: user,
+    })
+  );
+};
+
 export const getUserService = async (id: string) => {
   return await docClient.send(
     new GetCommand({
