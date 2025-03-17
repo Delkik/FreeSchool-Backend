@@ -1,4 +1,9 @@
-import { PutCommand, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  PutCommand,
+  GetCommand,
+  ScanCommand,
+  QueryCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@clients/dynamodb/client";
 import { BaseUser, Role } from "@schemas/User";
 import { v4 as uuidv4 } from "uuid";
@@ -55,4 +60,20 @@ export const getUserService = async (id: string) => {
 
 export const getUsersService = async () => {
   return await docClient.send(new ScanCommand({ TableName: TABLE_NAME }));
+};
+
+export const queryUserService = async (query: Partial<BaseUser>) => {
+  const filterExpressions = Object.keys(query).map((key) => `${key} = :${key}`);
+
+  const expressionAttributeValues = Object.fromEntries(
+    Object.entries(query).map(([key, value]) => [`:${key}`, value])
+  );
+
+  return await docClient.send(
+    new ScanCommand({
+      TableName: TABLE_NAME,
+      FilterExpression: filterExpressions.join(" AND "),
+      ExpressionAttributeValues: expressionAttributeValues,
+    })
+  );
 };
