@@ -7,6 +7,7 @@ export interface Course {
   teacher?: BaseUser;
   maxCount: number;
   grade: string;
+  subject?: string;
 }
 
 export interface CourseData {

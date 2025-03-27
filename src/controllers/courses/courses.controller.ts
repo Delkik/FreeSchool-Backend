@@ -108,7 +108,7 @@ export const listUserCourses = async (req: Request, res: Response) => {
 
     const data = await listUserCoursesService(userId);
 
-    res.status(200).json(data || { message: "Couldn't find courses" });
+    res.status(200).json(data.Items || { message: "Couldn't find courses" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -120,7 +120,7 @@ export const searchCourses = async (req: Request, res: Response) => {
 
     const data = await searchCoursesService(courseName);
 
-    res.status(200).json(data || { message: "Couldn't find courses" });
+    res.status(200).json(data.Items || { message: "Couldn't find courses" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
