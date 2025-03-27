@@ -68,7 +68,8 @@ export const getCourses = async (_: Request, res: Response) => {
 
 export const enrollInCourse = async (req: Request, res: Response) => {
   try {
-    const { courseId, userId, title, description } = req.body;
+    const courseId = req.params.id;
+    const { userId, title, description } = req.body;
 
     const data = await enrollInCourseService(
       courseId,
@@ -85,7 +86,8 @@ export const enrollInCourse = async (req: Request, res: Response) => {
 
 export const borrowCourse = async (req: Request, res: Response) => {
   try {
-    const { courseId, userId, title, description } = req.body;
+    const courseId = req.params.id;
+    const { userId, title, description } = req.body;
 
     const data = await borrowCourseService(
       courseId,

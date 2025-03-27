@@ -7,3 +7,9 @@ export interface Assignment {
   section: number;
   due: Date;
 }
+
+export interface UserAssignment {
+  userId: string;
+  submission: string;
+  submitDate: Date;
+}

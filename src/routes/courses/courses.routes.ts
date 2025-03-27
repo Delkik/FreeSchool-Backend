@@ -9,6 +9,7 @@ import {
   searchCourses,
   listUserCourses,
 } from "@controllers/courses/courses.controller";
+import assignmentRoutes from "./assignments";
 
 const router = Router();
 
@@ -24,5 +25,7 @@ router.post("/:id/borrow", borrowCourse);
 router.get("/search/:name", searchCourses);
 
 router.get("/user/:id", listUserCourses);
+
+router.use("/:id/assignments", assignmentRoutes);
 
 export default router;

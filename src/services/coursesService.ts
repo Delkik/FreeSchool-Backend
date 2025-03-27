@@ -60,7 +60,7 @@ export const enrollInCourseService = async (
         courseId,
         title,
         description,
-        enrollDate: new Date().toString(),
+        enrollDate: new Date().toISOString(),
         // TODO: add more data?
       },
       ConditionExpression: "attribute_not_exists(PK)", // Prevent duplicate borrowing
@@ -83,7 +83,7 @@ export const borrowCourseService = async (
         courseId,
         title,
         description,
-        borrowData: new Date().toString(),
+        borrowData: new Date().toISOString(),
         // TODO: add more data?
       },
       ConditionExpression: "attribute_not_exists(PK)", // Prevent duplicate borrowing
@@ -115,7 +115,7 @@ export const searchCoursesService = async (courseName: string) => {
     new QueryCommand({
       TableName: TABLE_NAME,
       IndexName: GSI_PK,
-      KeyConditionExpression: "begins_with(description, :prefix)",
+      KeyConditionExpression: "begins_with(courseName, :prefix)",
       ExpressionAttributeValues: {
         ":prefix": courseName,
       },
