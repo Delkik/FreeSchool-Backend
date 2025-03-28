@@ -8,6 +8,8 @@ export interface Course {
   maxCount: number;
   grade: string;
   subject?: string;
+  extraInfo?: string;
+  rating?: number;
 }
 
 export interface CourseData {

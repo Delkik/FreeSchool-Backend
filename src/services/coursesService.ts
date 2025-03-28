@@ -53,21 +53,27 @@ export const enrollInCourseService = async (
   title: string,
   description: string
 ) => {
-  return await docClient.send(
-    new PutCommand({
-      TableName: TABLE_NAME,
-      Item: {
-        PK: `USER#${userId}`,
-        SK: `COURSE#${courseId}#ENROLLED`,
-        courseId,
-        title,
-        description,
-        enrollDate: new Date().toISOString(),
-        // TODO: add more data?
-      },
-      ConditionExpression: "attribute_not_exists(PK)", // Prevent duplicate borrowing
-    })
-  );
+  try {
+    return await docClient.send(
+      new PutCommand({
+        TableName: TABLE_NAME,
+        Item: {
+          PK: `USER#${userId}`,
+          SK: `COURSE#${courseId}#ENROLLED`,
+          courseId,
+          title,
+          description,
+          enrollDate: new Date().toISOString(),
+          // TODO: add more data?
+        },
+        ConditionExpression:
+          "attribute_not_exists(PK) AND NOT begins_with(SK, COURSE#${courseId})", // Prevent duplicate enrolling
+      })
+    );
+  } catch (e) {
+    console.error(e);
+    return;
+  }
 };
 
 export const borrowCourseService = async (
@@ -76,21 +82,29 @@ export const borrowCourseService = async (
   title: string,
   description: string
 ) => {
-  return await docClient.send(
-    new PutCommand({
-      TableName: TABLE_NAME,
-      Item: {
-        PK: `USER#${userId}`,
-        SK: `COURSE#${courseId}#BORROWED`,
-        courseId,
-        title,
-        description,
-        borrowData: new Date().toISOString(),
-        // TODO: add more data?
-      },
-      ConditionExpression: "attribute_not_exists(PK)", // Prevent duplicate borrowing
-    })
-  );
+  try {
+    return await docClient.send(
+      new PutCommand({
+        TableName: TABLE_NAME,
+        Item: {
+          PK: `USER#${userId}`,
+          SK: `COURSE#${courseId}#BORROWED`,
+          courseId,
+          title,
+          description,
+          borrowDate: new Date().toISOString(),
+          // TODO: add more data?
+        },
+        ConditionExpression: `attribute_not_exists(PK) AND NOT begins_with(SK, :courseId)`, // Prevent duplicate borrowing
+        ExpressionAttributeValues: {
+          ":courseId": `COURSE#${courseId}`,
+        },
+      })
+    );
+  } catch (e) {
+    console.error(e);
+    return;
+  }
 };
 
 export const listUserCoursesService = async (userId: string) => {
