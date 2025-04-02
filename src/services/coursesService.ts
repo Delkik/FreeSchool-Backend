@@ -17,8 +17,10 @@ export const createCourseService = async (
   description: string,
   maxCount: number,
   grade: string,
-  subject: string,
-  teacher?: BaseUser
+  teacher?: BaseUser,
+  subject?: string,
+  extraInfo?: string,
+  rating?: number
 ) => {
   const id = uuidv4();
 
@@ -30,6 +32,8 @@ export const createCourseService = async (
     maxCount,
     subject,
     grade,
+    extraInfo,
+    rating,
   };
 
   await docClient.send(
@@ -132,7 +136,8 @@ export const searchCoursesService = async (courseName: string) => {
       TableName: TABLE_NAME,
       IndexName: GSI_PK,
       KeyConditionExpression: "courseName = :prefix",
-      ProjectionExpression: "courseName, description, id, grade, subject",
+      ProjectionExpression:
+        "courseName, description, id, grade, subject, rating",
       ExpressionAttributeValues: {
         ":prefix": courseName,
       },
@@ -170,7 +175,8 @@ export const getCoursesService = async () => {
     new ScanCommand({
       TableName: TABLE_NAME,
       FilterExpression: "begins_with(PK, :coursePrefix) AND SK = :details",
-      ProjectionExpression: "courseName, description, id, grade, subject",
+      ProjectionExpression:
+        "courseName, description, id, grade, subject, rating",
       ExpressionAttributeValues: {
         ":coursePrefix": "COURSE#",
         ":details": "DETAILS",

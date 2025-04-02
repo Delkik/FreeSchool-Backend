@@ -12,7 +12,16 @@ import {
 
 // Create or Update Course
 export const createCourse = async (req: Request, res: Response) => {
-  const { courseName, description, maxCount, teacher, grade } = req.body;
+  const {
+    courseName,
+    description,
+    maxCount,
+    teacher,
+    grade,
+    subject,
+    extraInfo,
+    rating,
+  } = req.body;
 
   try {
     if (!courseName || !description || !maxCount || !grade) {
@@ -24,7 +33,10 @@ export const createCourse = async (req: Request, res: Response) => {
       description,
       maxCount,
       grade,
-      teacher
+      teacher,
+      subject,
+      extraInfo,
+      rating
     );
 
     res.status(201).json({ course, message: "Course saved successfully!" });

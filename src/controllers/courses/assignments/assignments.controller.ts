@@ -11,15 +11,15 @@ import {
 // Create or Update Assignment
 export const createAssignment = async (req: Request, res: Response) => {
   const courseId = req.params.id;
-  const { assignmentName, description, maxGrade, section, due } = req.body;
+  const { name, description, maxGrade, section, due } = req.body;
 
   try {
-    if (!assignmentName || !description || !maxGrade || !section || !due) {
+    if (!name || !description || !maxGrade || !section || !due) {
       throw new Error("Please include all required assignment information.");
     }
 
     const assignment = await createAssignmentService(
-      assignmentName,
+      name,
       description,
       maxGrade,
       section,

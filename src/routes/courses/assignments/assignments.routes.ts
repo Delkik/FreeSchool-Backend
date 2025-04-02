@@ -8,7 +8,7 @@ import {
   getSubmittedAssignment,
 } from "@controllers/courses/assignments/assignments.controller";
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
 router.post("/", createAssignment);
 router.get("/", getAssignments);
