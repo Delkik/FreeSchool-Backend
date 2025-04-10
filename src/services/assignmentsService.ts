@@ -13,10 +13,10 @@ const TABLE_NAME = "FreeSchool";
 export const createAssignmentService = async (
   name: string,
   description: string,
-  maxGrade: number,
   section: number,
-  due: Date,
-  courseId: string
+  courseId: string,
+  maxGrade?: number,
+  due?: string
 ) => {
   const id = uuidv4();
 

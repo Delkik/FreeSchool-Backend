@@ -1,11 +1,11 @@
 export interface Assignment {
   id: string;
   name: string;
-  maxGrade: number;
+  maxGrade?: number;
   courseId: string;
   description: string;
   section: number;
-  due: Date;
+  due?: string;
 }
 
 export interface UserAssignment {
