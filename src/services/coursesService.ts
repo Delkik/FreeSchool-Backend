@@ -17,7 +17,7 @@ export const createCourseService = async (
   description: string,
   maxCount: number,
   grade: string,
-  teacher?: BaseUser,
+  teacherId: string,
   subject?: string,
   extraInfo?: string,
   rating?: number
@@ -28,7 +28,7 @@ export const createCourseService = async (
     id,
     courseName,
     description,
-    teacher,
+    teacherId,
     maxCount,
     subject,
     grade,

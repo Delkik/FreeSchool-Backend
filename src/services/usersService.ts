@@ -10,7 +10,8 @@ export const createUserService = async (
   lastName: string,
   email: string,
   role: Role,
-  data: any
+  parentId?: string,
+  grade?: string
 ) => {
   const id = uuidv4();
 
@@ -21,7 +22,8 @@ export const createUserService = async (
     email,
     role,
     isFirstTime: true,
-    ...data,
+    parentId,
+    grade,
   };
 
   await docClient.send(
@@ -72,6 +74,19 @@ export const getUsersService = async () => {
       ExpressionAttributeValues: {
         ":userPrefix": "USER#",
         ":profile": "PROFILE",
+      },
+    })
+  );
+};
+
+export const getChildrenService = async (id: string) => {
+  return await docClient.send(
+    new ScanCommand({
+      TableName: TABLE_NAME,
+      FilterExpression: "SK = :profile AND parentId = :parentId",
+      ExpressionAttributeValues: {
+        ":profile": "PROFILE",
+        ":parentId": id,
       },
     })
   );

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createUser,
+  getChildren,
   getUser,
   getUsers,
   updateUser,
@@ -13,5 +14,7 @@ router.get("/", getUsers);
 
 router.get("/:id", getUser);
 router.put("/:id", updateUser);
+
+router.get("/:id/children", getChildren);
 
 export default router;
