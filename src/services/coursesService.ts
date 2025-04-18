@@ -55,7 +55,8 @@ export const enrollInCourseService = async (
   courseId: string,
   userId: string,
   title: string,
-  description: string
+  description: string,
+  teacherId: string
 ) => {
   try {
     return await docClient.send(
@@ -70,8 +71,10 @@ export const enrollInCourseService = async (
           enrollDate: new Date().toISOString(),
           // TODO: add more data?
         },
-        ConditionExpression:
-          "attribute_not_exists(PK) AND NOT begins_with(SK, COURSE#${courseId})", // Prevent duplicate enrolling
+        ConditionExpression: `attribute_not_exists(PK) AND NOT begins_with(SK, :courseId)`, // Prevent duplicate borrowing
+        ExpressionAttributeValues: {
+          ":courseId": `COURSE#${courseId}`,
+        },
       })
     );
   } catch (e) {
@@ -84,7 +87,8 @@ export const borrowCourseService = async (
   courseId: string,
   userId: string,
   title: string,
-  description: string
+  description: string,
+  teacherId: string
 ) => {
   try {
     return await docClient.send(
@@ -97,6 +101,7 @@ export const borrowCourseService = async (
           title,
           description,
           borrowDate: new Date().toISOString(),
+          teacherId,
           // TODO: add more data?
         },
         ConditionExpression: `attribute_not_exists(PK) AND NOT begins_with(SK, :courseId)`, // Prevent duplicate borrowing

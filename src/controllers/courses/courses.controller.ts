@@ -82,13 +82,14 @@ export const enrollInCourse = async (req: Request, res: Response) => {
   try {
     const courseId = req.params.id;
     const userId = req.params.userId;
-    const { title, description } = req.body;
+    const { title, description, teacherId } = req.body;
 
     const data = await enrollInCourseService(
       courseId,
       userId,
       title,
-      description
+      description,
+      teacherId
     );
 
     res.status(200).json(data || { message: "Couldn't enroll in course" });
@@ -101,13 +102,14 @@ export const borrowCourse = async (req: Request, res: Response) => {
   try {
     const courseId = req.params.id;
     const userId = req.params.userId;
-    const { title, description } = req.body;
+    const { title, description, teacherId } = req.body;
 
     const data = await borrowCourseService(
       courseId,
       userId,
       title,
-      description
+      description,
+      teacherId
     );
 
     res.status(200).json(data || { message: "Couldn't borrow course" });
