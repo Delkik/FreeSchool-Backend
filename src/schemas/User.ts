@@ -10,4 +10,5 @@ export interface BaseUser {
   pfp?: string;
   isFirstTime: boolean;
   parentId?: string;
+  rating?: number;
 }

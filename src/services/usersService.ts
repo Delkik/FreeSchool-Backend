@@ -11,7 +11,8 @@ export const createUserService = async (
   email: string,
   role: Role,
   parentId?: string,
-  grade?: string
+  grade?: string,
+  rating?: number
 ) => {
   const id = uuidv4();
 
@@ -24,6 +25,7 @@ export const createUserService = async (
     isFirstTime: true,
     parentId,
     grade,
+    rating,
   };
 
   await docClient.send(

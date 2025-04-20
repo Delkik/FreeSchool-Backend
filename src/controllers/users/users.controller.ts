@@ -9,7 +9,8 @@ import {
 
 // Create or Update User
 export const createUser = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, role, parentId, grade } = req.body;
+  const { firstName, lastName, email, role, parentId, grade, rating } =
+    req.body;
 
   try {
     if (!firstName || !lastName || !email || !role) {
@@ -22,7 +23,8 @@ export const createUser = async (req: Request, res: Response) => {
       email,
       role,
       parentId,
-      grade
+      grade,
+      rating
     );
 
     res.status(201).json({ user, message: "User saved successfully!" });

@@ -104,7 +104,7 @@ export const getSubmittedAssignment = async (req: Request, res: Response) => {
       assignmentId
     );
 
-    res.status(200).json(data || { message: "Couldn't get submission" });
+    res.status(200).json(data.Item || { message: "Couldn't get submission" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
