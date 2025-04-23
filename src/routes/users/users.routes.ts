@@ -6,6 +6,7 @@ import {
   getUsers,
   updateUser,
 } from "@controllers/users/users.controller";
+import gradeRoutes from "./grades";
 
 const router = Router();
 
@@ -14,6 +15,8 @@ router.get("/", getUsers);
 
 router.get("/:id", getUser);
 router.put("/:id", updateUser);
+
+router.use("/:id/grades", gradeRoutes);
 
 router.get("/:id/children", getChildren);
 

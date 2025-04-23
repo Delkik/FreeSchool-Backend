@@ -21,7 +21,4 @@ router.get("/:assignmentId/user/:userId", getSubmittedAssignment);
 
 router.post("/:assignmentId/user/:userId/submit", submitAssignment);
 
-// Grades
-// TODO:
-
 export default router;

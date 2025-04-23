@@ -129,12 +129,6 @@ export const listUserCoursesService = async (userId: string) => {
   );
 };
 
-// TODO:
-export const getCourseGradeService = async (
-  courseId: string,
-  userId: string
-) => {};
-
 export const searchCoursesService = async (courseName: string) => {
   return await docClient.send(
     new QueryCommand({

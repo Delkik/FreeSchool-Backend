@@ -65,12 +65,6 @@ export const submitAssignmentService = async (
   );
 };
 
-// TODO:
-export const getAssignmentGradeService = async (
-  assignmentId: string,
-  userId: string
-) => {};
-
 export const updateAssignmentService = async (assignment: Assignment) => {
   return await docClient.send(
     new PutCommand({
