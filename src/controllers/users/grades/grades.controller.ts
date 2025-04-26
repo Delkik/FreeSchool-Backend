@@ -25,7 +25,7 @@ export const getCourseGrades = async (req: Request, res: Response) => {
     const userId = req.params.id;
     const courseId = req.params.courseId;
 
-    const grades = await getCourseGradesService(userId, courseId);
+    const grades = (await getCourseGradesService(userId, courseId)) || [];
 
     res.status(201).json({ grades, message: "Course saved successfully!" });
   } catch (error: any) {
@@ -38,9 +38,9 @@ export const getCourseGrade = async (req: Request, res: Response) => {
     const userId = req.params.id;
     const courseId = req.params.courseId;
 
-    const grades = await getCourseGradeService(userId, courseId);
+    const grade = await getCourseGradeService(userId, courseId);
 
-    res.status(201).json({ grades, message: "Course saved successfully!" });
+    res.status(201).json({ grade, message: "Course saved successfully!" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -66,13 +66,13 @@ export const getAssignmentGrade = async (req: Request, res: Response) => {
     const courseId = req.params.courseId;
     const assignmentId = req.params.assignmentId;
 
-    const grades = await getAssignmentGradeService(
+    const grade = await getAssignmentGradeService(
       userId,
       courseId,
       assignmentId
     );
 
-    res.status(201).json({ grades, message: "Course saved successfully!" });
+    res.status(201).json({ grade, message: "Course saved successfully!" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

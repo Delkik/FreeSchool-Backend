@@ -72,6 +72,7 @@ export const putCourseGradeService = async (
         grade,
         courseId,
         gradeDate: new Date(),
+        type: "grade",
         id: userId,
       },
     })
@@ -115,6 +116,7 @@ export const putAssignmentGradeService = async (
         courseId,
         assignmentId,
         gradeDate: new Date(),
+        type: "assignment",
         id: userId,
       },
     })
