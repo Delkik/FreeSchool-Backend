@@ -9,8 +9,3 @@ export interface Course {
   extraInfo?: string;
   rating?: number;
 }
-
-export interface CourseData {
-  borrowed: boolean;
-  startDate: Date;
-}

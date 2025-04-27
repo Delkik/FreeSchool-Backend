@@ -66,7 +66,7 @@ export const enrollInCourseService = async (
           PK: `USER#${userId}`,
           SK: `COURSE#${courseId}#ENROLLED`,
           courseId,
-          title,
+          courseName: title,
           description,
           enrollDate: new Date().toISOString(),
           // TODO: add more data?
@@ -98,7 +98,7 @@ export const borrowCourseService = async (
           PK: `USER#${userId}`,
           SK: `COURSE#${courseId}#BORROWED`,
           courseId,
-          title,
+          courseName: title,
           description,
           borrowDate: new Date().toISOString(),
           teacherId,

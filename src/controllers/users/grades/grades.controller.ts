@@ -50,9 +50,14 @@ export const putCourseGrade = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;
     const courseId = req.params.courseId;
-    const { grade } = req.body;
+    const { grade, courseName } = req.body;
 
-    const grades = await putCourseGradeService(userId, courseId, grade);
+    const grades = await putCourseGradeService(
+      userId,
+      courseId,
+      grade,
+      courseName
+    );
 
     res.status(201).json({ grades, message: "Course saved successfully!" });
   } catch (error: any) {
@@ -84,13 +89,15 @@ export const putAssignmentGrade = async (req: Request, res: Response) => {
     const courseId = req.params.courseId;
     const assignmentId = req.params.assignmentId;
 
-    const { grade } = req.body;
+    const { grade, courseName, assignmentName } = req.body;
 
     const grades = await putAssignmentGradeService(
       userId,
       courseId,
       assignmentId,
-      grade
+      grade,
+      courseName,
+      assignmentName
     );
 
     res.status(201).json({ grades, message: "Course saved successfully!" });

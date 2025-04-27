@@ -61,7 +61,8 @@ export const getCourseGradeService = async (
 export const putCourseGradeService = async (
   userId: string,
   courseId: string,
-  grade: number
+  numberGrade: number,
+  courseName: string
 ) => {
   await docClient.send(
     new PutCommand({
@@ -69,10 +70,11 @@ export const putCourseGradeService = async (
       Item: {
         PK: `USER#${userId}`,
         SK: `GRADE#COURSE#${courseId}`,
-        grade,
+        numberGrade,
         courseId,
         gradeDate: new Date(),
-        type: "grade",
+        courseName,
+        type: "course",
         id: userId,
       },
     })
@@ -104,7 +106,9 @@ export const putAssignmentGradeService = async (
   userId: string,
   courseId: string,
   assignmentId: string,
-  numberGrade: number
+  numberGrade: number,
+  courseName: string,
+  assignmentName: string
 ) => {
   await docClient.send(
     new PutCommand({
@@ -115,6 +119,8 @@ export const putAssignmentGradeService = async (
         numberGrade,
         courseId,
         assignmentId,
+        courseName,
+        assignmentName,
         gradeDate: new Date(),
         type: "assignment",
         id: userId,

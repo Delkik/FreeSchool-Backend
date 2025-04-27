@@ -2,6 +2,8 @@ export interface Grade {
   numberGrade: number;
   gradeDate: number;
   courseId: string;
+  courseName: string;
   assignmentId?: string;
-  type: "grade" | "assignment";
+  assignmentName?: string;
+  type: "course" | "assignment";
 }
