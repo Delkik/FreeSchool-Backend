@@ -14,7 +14,8 @@ export const signup = async (req: Request, res: Response) => {
       email,
       role,
       parentId,
-      grade
+      grade,
+      result.UserSub
     );
 
     res.status(200).json({ ...result, user });

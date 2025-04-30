@@ -11,4 +11,4 @@ const client = new S3Client({
   },
 });
 
-export { client };
+export { client as s3Client };

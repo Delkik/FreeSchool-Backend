@@ -12,9 +12,10 @@ export const createUserService = async (
   role: Role,
   parentId?: string,
   grade?: string,
+  userId?: string,
   rating?: number
 ) => {
-  const id = uuidv4();
+  const id = userId || uuidv4();
 
   const user: BaseUser = {
     id,
