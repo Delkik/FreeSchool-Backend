@@ -3,7 +3,7 @@ import { docClient } from "@clients/dynamodb/client";
 import { BaseUser, Role } from "@schemas/User";
 import { v4 as uuidv4 } from "uuid";
 
-const TABLE_NAME = "FreeSchool";
+const TABLE_NAME = "FreeSchool2";
 
 export const createUserService = async (
   firstName: string,

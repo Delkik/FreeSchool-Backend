@@ -1,14 +1,9 @@
-import {
-  PutCommand,
-  GetCommand,
-  ScanCommand,
-  QueryCommand,
-} from "@aws-sdk/lib-dynamodb";
+import { PutCommand, GetCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@clients/dynamodb/client";
 import { Assignment } from "@schemas/Assignment";
 import { v4 as uuidv4 } from "uuid";
 
-const TABLE_NAME = "FreeSchool";
+const TABLE_NAME = "FreeSchool2";
 
 export const createAssignmentService = async (
   name: string,

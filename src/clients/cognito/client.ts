@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const cognitoClient = new CognitoIdentityProviderClient({
-  region: process.env.AWS_REGION,
+  region: process.env.SERVER_AWS_REGION,
 });
 
 export default cognitoClient;

@@ -1,7 +1,7 @@
 import { PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@clients/dynamodb/client";
 
-const TABLE_NAME = "FreeSchool";
+const TABLE_NAME = "FreeSchool2";
 
 // grades
 export const getGradesService = async (userId: string) => {

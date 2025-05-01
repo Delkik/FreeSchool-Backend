@@ -6,10 +6,9 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { docClient } from "@clients/dynamodb/client";
 import { Course } from "@schemas/Course";
-import { BaseUser } from "@schemas/User";
 import { v4 as uuidv4 } from "uuid";
 
-const TABLE_NAME = "FreeSchool";
+const TABLE_NAME = "FreeSchool2";
 const GSI_PK = "course-index";
 
 export const createCourseService = async (

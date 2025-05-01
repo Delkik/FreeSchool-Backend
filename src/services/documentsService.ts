@@ -7,8 +7,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { s3Client } from "@clients/s3/client";
 
-const TABLE_NAME = "FreeSchool";
-const BUCKET_NAME = "free-school-bucket";
+const TABLE_NAME = "FreeSchool2";
+const BUCKET_NAME = "free-school-bucket-2";
 
 export const getDocumentsService = async (userId: string) => {
   return (
