@@ -12,9 +12,9 @@ const router = Router({ mergeParams: true });
 router.get("/", getDocuments);
 router.post("/", uploadDocument);
 
+router.post("/ihip", uploadIHIP);
+
 router.get("/:documentId", getDocument);
 router.post("/:documentId", replaceDocument);
-
-router.post("/ihip", uploadIHIP);
 
 export default router;

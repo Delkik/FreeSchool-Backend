@@ -10,9 +10,9 @@ export const getDocuments = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;
 
-    const grades = await getDocumentsService(userId);
+    const documents = await getDocumentsService(userId);
 
-    res.status(201).json({ grades, message: "Course saved successfully!" });
+    res.status(201).json({ documents, message: "Course saved successfully!" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -61,11 +61,13 @@ export const uploadIHIP = async (req: Request, res: Response) => {
     const userId = req.params.id;
     const { grade, childName } = req.body;
 
+    console.log("??");
+
     const file = await uploadIHIPService(userId, grade, childName);
 
     res
       .status(201)
-      .json({ metadata: file, message: "Course saved successfully!" });
+      .json({ metadata: file, message: "Document uploaded successfully!" });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

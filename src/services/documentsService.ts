@@ -15,10 +15,10 @@ export const getDocumentsService = async (userId: string) => {
     await docClient.send(
       new QueryCommand({
         TableName: TABLE_NAME,
-        KeyConditionExpression: "PK = :user AND begins_with(SK, :grade)",
+        KeyConditionExpression: "PK = :user AND begins_with(SK, :document)",
         ExpressionAttributeValues: {
           ":user": `USER#${userId}`,
-          ":grade": `GRADE#`,
+          ":document": `DOCUMENT#`,
         },
       })
     )
@@ -36,7 +36,7 @@ export const uploadDocumentService = async (
         KeyConditionExpression: "PK = :user AND begins_with(SK, :grade)",
         ExpressionAttributeValues: {
           ":user": `USER#${userId}`,
-          ":grade": `GRADE#COURSE#${courseId}#ASSIGNMENT#`,
+          ":grade": `DOCUMENT#${courseId}#ASSIGNMENT#`,
         },
       })
     )
@@ -45,16 +45,16 @@ export const uploadDocumentService = async (
 
 export const getDocumentMetadataService = async (
   userId: string,
-  courseId: string
+  documentId: string
 ) => {
   return (
     await docClient.send(
       new QueryCommand({
         TableName: TABLE_NAME,
-        KeyConditionExpression: "PK = :user AND SK = :grade",
+        KeyConditionExpression: "PK = :user AND SK = :document",
         ExpressionAttributeValues: {
           ":user": `USER#${userId}`,
-          ":grade": `GRADE#COURSE#${courseId}`,
+          ":document": `DOCUMENT#${documentId}`,
         },
       })
     )
@@ -63,7 +63,7 @@ export const getDocumentMetadataService = async (
 
 export const getDocumentFileService = async (
   userId: string,
-  courseId: string
+  documentId: string
 ) => {
   return (
     await docClient.send(
@@ -72,7 +72,7 @@ export const getDocumentFileService = async (
         KeyConditionExpression: "PK = :user AND SK = :grade",
         ExpressionAttributeValues: {
           ":user": `USER#${userId}`,
-          ":grade": `GRADE#COURSE#${courseId}`,
+          ":grade": `DOCUMENT#${documentId}`,
         },
       })
     )
@@ -117,29 +117,29 @@ export const uploadIHIPService = async (
     filePath = path.resolve(__dirname, "../files/ihip/ihip-1-6.pdf");
   }
 
-  const file = fs.readFileSync(filePath);
+  const file = fs.createReadStream(filePath);
 
   const id = uuidv4();
 
   const command = new PutObjectCommand({
     Bucket: BUCKET_NAME,
-    Key: `users/${userId}/${id}.json`, // set your own user-specific path
+    Key: `users/${userId}/${id}.pdf`, // set your own user-specific path
     Body: file,
-    ContentType: "application/json",
+    ContentType: "application/pdf",
   });
 
   try {
     const response = await s3Client.send(command);
     console.log("Upload successful:", response);
   } catch (error) {
-    console.error("Upload failed:", error);
-    return null;
+    throw new Error("Upload failed:" + error);
   }
 
   const doc: Document = {
     id,
-    title: `${childName}'s IHIP for Grade ${grade}`,
-    link: `users/${userId}/${id}.json`,
+    title: `${childName}'s IHIP`,
+    description: `An IHIP for Grade ${grade}`,
+    link: `https://${BUCKET_NAME}.s3.${process.env.SERVER_AWS_REGION}.amazonaws.com/users/${userId}/${id}.pdf`,
     ownerId: userId,
   };
 
@@ -148,7 +148,7 @@ export const uploadIHIPService = async (
       TableName: TABLE_NAME,
       Item: {
         PK: `USER#${userId}`,
-        SK: `DOCUMENT#${doc.id}`,
+        SK: `DOCUMENT#${id}`,
         ...doc,
       },
       ConditionExpression: `attribute_not_exists(SK)`,
