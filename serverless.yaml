@@ -1,0 +1,118 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: delkik
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: freeschool
+service: express-ts-lambda
+
+resources:
+  Resources:
+    # DynamoDB Table for file metadata
+    FreeSchoolTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: FreeSchool2
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S # String type for the partition key
+          - AttributeName: SK
+            AttributeType: S # String type for the sort key
+          - AttributeName: courseName
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH # Partition key
+          - AttributeName: SK
+            KeyType: RANGE # Sort key
+        BillingMode: PAY_PER_REQUEST
+
+        # Optional: Define a Global Secondary Index (GSI)
+        GlobalSecondaryIndexes:
+          - IndexName: course-index
+            KeySchema:
+              - AttributeName: courseName
+                KeyType: HASH
+              - AttributeName: id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+    FreeSchoolBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: free-school-bucket-2
+        VersioningConfiguration:
+          Status: Enabled
+    # Cognito User Pool
+    FreeSchoolUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: User pool - xftj3-
+        AliasAttributes:
+          - email
+        AutoVerifiedAttributes:
+        MfaConfiguration: OFF
+
+    # Cognito User Pool Client
+    FreeSchoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: freeschool
+        UserPoolId: !Ref FreeSchoolUserPool
+        GenerateSecret: false
+        ExplicitAuthFlows:
+          - ALLOW_USER_AUTH
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
+          - ALLOW_USER_SRP_AUTH
+        SupportedIdentityProviders:
+          - COGNITO
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  environment:
+    PORT: ${env:PORT}
+    SERVER_AWS_REGION: ${env:SERVER_AWS_REGION}
+    SERVER_AWS_ACCESS_KEY_ID: ${env:SERVER_AWS_ACCESS_KEY_ID}
+    SERVER_AWS_SECRET_ACCESS_KEY: ${env:SERVER_AWS_SECRET_ACCESS_KEY}
+    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID}
+    COGNITO_CLIENT_SECRET: ${env:COGNITO_CLIENT_SECRET}
+
+functions:
+  app:
+    handler: src/handler.handler
+    events:
+      - http:
+          cors: true
+          path: api/{proxy+}
+          method: ANY
+
+plugins:
+  - serverless-dotenv-plugin
+
+custom:
+  esbuild:
+    logPort: ${env:PORT}
+    bundle: true
+    target: node20
+    platform: node
+    sourcemap: true
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+
+cors:
+  origin: "*"
+  headers:
+    - Content-Type
+    - X-Amz-Date
+    - Authorization
+    - X-Api-Key
+    - X-Amz-Security-Token
+  allowCredentials: false

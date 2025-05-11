@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
-    "target": "es2016",
+    "target": "ES2020",
     "module": "CommonJS",
     "rootDir": "./src",
     "outDir": "./dist",
@@ -11,12 +11,13 @@
     "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
-      "@cognito/*": ["cognito/*"],
+      "@clients/*": ["clients/*"],
       "@controllers/*": ["controllers/*"],
       "@models/*": ["models/*"],
       "@services/*": ["services/*"],
       "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@schemas/*": ["schemas/*"]
     }
   },
   "include": ["**/*.ts"],

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { login } from "@controllers/auth/login.controller";
+import coursesRoutes from "./courses.routes";
 
 const router = Router();
 
-router.post("/", login);
+router.use("/", coursesRoutes);
 
 export default router;
