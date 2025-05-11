@@ -21,10 +21,10 @@ export const createAssignment = async (req: Request, res: Response) => {
     const assignment = await createAssignmentService(
       name,
       description,
-      maxGrade,
       section,
-      due,
-      courseId
+      courseId,
+      maxGrade,
+      due
     );
 
     res
