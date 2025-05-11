@@ -1,10 +1,9 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const client = new DynamoDBClient({
+const client = new S3Client({
   region: process.env.SERVER_AWS_REGION,
   credentials: {
     accessKeyId: process.env.SERVER_AWS_ACCESS_KEY_ID!,
@@ -12,6 +11,4 @@ const client = new DynamoDBClient({
   },
 });
 
-const docClient = DynamoDBDocumentClient.from(client);
-
-export { docClient };
+export { client as s3Client };

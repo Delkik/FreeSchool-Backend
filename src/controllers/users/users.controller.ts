@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   createUserService,
+  getChildrenService,
   getUserService,
   getUsersService,
   updateUserService,
@@ -8,7 +9,8 @@ import {
 
 // Create or Update User
 export const createUser = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, role, data } = req.body;
+  const { firstName, lastName, email, role, parentId, grade, rating } =
+    req.body;
 
   try {
     if (!firstName || !lastName || !email || !role) {
@@ -20,7 +22,9 @@ export const createUser = async (req: Request, res: Response) => {
       lastName,
       email,
       role,
-      data
+      parentId,
+      grade,
+      rating
     );
 
     res.status(201).json({ user, message: "User saved successfully!" });
@@ -55,6 +59,17 @@ export const getUser = async (req: Request, res: Response) => {
 export const getUsers = async (_: Request, res: Response) => {
   try {
     const data = await getUsersService();
+
+    res.status(200).json(data.Items || []);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getChildren = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const data = await getChildrenService(id);
 
     res.status(200).json(data.Items || []);
   } catch (error: any) {

@@ -9,4 +9,6 @@ export interface BaseUser {
   grade?: string;
   pfp?: string;
   isFirstTime: boolean;
+  parentId?: string;
+  rating?: number;
 }

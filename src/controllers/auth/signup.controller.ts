@@ -3,13 +3,22 @@ import { createUserService } from "@services/usersService";
 import { Request, Response } from "express";
 
 export const signup = async (req: Request, res: Response) => {
-  const { password, email, firstName, lastName, role, data } = req.body;
+  const { password, email, firstName, lastName, role, parentId, grade } =
+    req.body;
   try {
     const result = await signUpUser(email, password, firstName, lastName);
 
-    await createUserService(firstName, lastName, email, role, data);
+    const user = await createUserService(
+      firstName,
+      lastName,
+      email,
+      role,
+      parentId,
+      grade,
+      result.UserSub
+    );
 
-    res.status(200).json(result);
+    res.status(200).json({ ...result, user });
   } catch (error: any) {
     console.error("Error signing up user:", error);
     res.status(400).json({
